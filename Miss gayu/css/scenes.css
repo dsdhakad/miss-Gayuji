@@ -1,0 +1,239 @@
+/* ==========================================================================
+   Scenes CSS — 3D Level Containers & Story Progression
+   ========================================================================== */
+
+.site-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+}
+
+/* Scene Base (Level Card) */
+.scene {
+  min-height: 100svh;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: max(70px, env(safe-area-inset-top)) 24px max(40px, env(safe-area-inset-bottom));
+  text-align: center;
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  transform-style: preserve-3d;
+}
+
+.scene.active {
+  display: flex;
+}
+
+/* 3D Scene Transition Animations */
+.scene-enter-3d {
+  animation: sceneFlipIn 550ms var(--ease-cinematic) forwards;
+}
+
+.scene-exit-3d {
+  animation: sceneFlipOut 400ms var(--ease-cinematic) forwards;
+}
+
+@keyframes sceneFlipIn {
+  0% {
+    opacity: 0;
+    transform: translateZ(-80px) rotateX(12deg) translateY(24px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0) rotateX(0deg) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes sceneFlipOut {
+  0% {
+    opacity: 1;
+    transform: translateZ(0) rotateX(0deg) translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(-100px) rotateX(-12deg) translateY(-20px);
+    filter: blur(6px);
+  }
+}
+
+/* Scene Inner Content */
+.scene-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Typography Treatments */
+.title-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.title-hero {
+  font-size: var(--text-hero);
+  color: var(--text-white);
+  margin-bottom: 18px;
+  text-shadow: 0 0 35px var(--blue-soft-glow);
+}
+
+.text-emotional {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-white);
+  line-height: 1.4;
+  margin: 16px 0;
+}
+
+.body-lead {
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.body-quiet {
+  font-size: var(--text-xs);
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-top: 14px;
+}
+
+.statement-primary {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  color: var(--text-white);
+  margin: 20px 0;
+}
+
+/* ==========================================================================
+   LEVEL-SPECIFIC STYLES
+   ========================================================================== */
+
+/* Level 1: Opening */
+.opening-blue-glow-ring {
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, var(--blue-soft-glow) 0%, transparent 70%);
+  border-radius: 50%;
+  margin-bottom: 8px;
+  animation: glowPulse 3.5s infinite ease-in-out;
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: scale(0.85); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 0.9; }
+}
+
+/* Level 3: 3D Timeline Path */
+.timeline-3d-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 340px;
+  padding: 10px 20px;
+  background: rgba(7, 20, 38, 0.6);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--blue-glow);
+  letter-spacing: 0.15em;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.timeline-3d-line {
+  flex: 1;
+  height: 2px;
+  margin: 0 16px;
+  background: linear-gradient(90deg, var(--blue), var(--blue-glow));
+  box-shadow: 0 0 10px var(--blue-glow);
+}
+
+.floating-words-cloud {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.word-tag {
+  font-size: var(--text-xs);
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Level 4: Focused Flower Icon */
+.flower-focused-icon {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 16px var(--blue-glow));
+  animation: floatFlower 4.5s infinite ease-in-out;
+}
+
+@keyframes floatFlower {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.apology-hero-text {
+  font-family: var(--font-serif);
+  font-size: var(--text-hero);
+  color: var(--text-white);
+  margin: 16px 0;
+  text-shadow: 0 0 35px var(--blue-glow);
+}
+
+/* Level 6: Climax & Decision */
+.climax-glowing-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue-glow);
+  box-shadow: 0 0 25px 6px var(--blue-glow);
+  margin-bottom: 22px;
+}
+
+.decision-actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 340px;
+  margin: 28px auto 0;
+}
+
+/* Outcome View Titles */
+.outcome-hero-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-hero);
+  color: var(--text-white);
+  margin-bottom: 16px;
+  text-shadow: 0 0 30px var(--blue-soft-glow);
+}

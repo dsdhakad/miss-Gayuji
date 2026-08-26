@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#040404">
+  <title>Just One Conversation</title>
+
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/scenes.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Atmospheric Layers -->
+  <div class="ambient-layer ambient-radial-glow" aria-hidden="true"></div>
+  <div class="ambient-layer ambient-light-rays" aria-hidden="true"></div>
+  <div class="ambient-layer ambient-grain" aria-hidden="true"></div>
+
+  <!-- Ambient Flower Silhouettes -->
+  <svg class="ambient-flower-tl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M100 20C80 50 40 70 20 100C50 120 70 160 100 180C120 150 160 130 180 100C150 80 130 40 100 20Z" fill="url(#rose-grad-1)" />
+    <defs>
+      <linearGradient id="rose-grad-1" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#2D6BFF" stop-opacity="0.35"/>
+        <stop offset="1" stop-color="#0A1830" stop-opacity="0.05"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <svg class="ambient-flower-br" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M100 20C75 45 45 75 20 100C45 125 75 155 100 180C125 155 155 125 180 100C155 75 125 45 100 20Z" fill="url(#rose-grad-2)" />
+    <defs>
+      <linearGradient id="rose-grad-2" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#69A6FF" stop-opacity="0.25"/>
+        <stop offset="1" stop-color="#040404" stop-opacity="0.05"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Interactive Drifting Petals Canvas -->
+  <canvas id="petals-canvas" aria-hidden="true"></canvas>
+
+  <!-- 3D Floating Guide Light / Orb -->
+  <div id="guide-orb" class="guide-orb" aria-hidden="true"></div>
+
+  <!-- Top Progress Bar & Header Tracker -->
+  <div class="journey-progress-bar-wrap" aria-hidden="true">
+    <div class="journey-progress-fill" id="journey-progress-fill"></div>
+  </div>
+
+  <header class="journey-header">
+    <div class="journey-progress-indicator">
+      <span id="journey-progress-text">01 / 06</span>
+    </div>
+
+    <!-- Persistent Sound Toggle Button -->
+    <button id="audio-toggle" class="audio-controller-btn is-hidden" aria-label="Toggle Background Music" aria-pressed="false">
+      <span class="sound-icon" aria-hidden="true">♪</span>
+      <span class="sound-label">Music</span>
+    </button>
+  </header>
+
+  <!-- Main 3D Container -->
+  <main class="site-container">
+    
+    <!-- ====================================================================
+         LEVEL 1 — OPENING (01 / 06)
+         ==================================================================== -->
+    <section id="level-01" class="scene active" aria-label="Level 1: Opening">
+      <div class="scene-content">
+        <div class="opening-blue-glow-ring" aria-hidden="true"></div>
+        
+        <!-- 3D Floating Rotating Envelope -->
+        <div class="envelope-3d-wrapper" aria-hidden="true">
+          <div class="envelope-3d">
+            <div class="envelope-heart-seal"></div>
+          </div>
+        </div>
+
+        <h1 class="title-serif title-hero">Hey…</h1>
+        
+        <p class="body-lead">I could have sent another message…</p>
+        <p class="body-lead" style="margin-bottom: 22px;">But I wanted to say this differently.</p>
+
+        <!-- Sound Mode Selection -->
+        <div class="audio-mode-selector">
+          <button id="btn-sound-mode" class="mode-chip selected" type="button" aria-label="Open with music">
+            Open With Music ♪
+          </button>
+          <button id="btn-silent-mode" class="mode-chip" type="button" aria-label="Continue silently without music">
+            Continue Silently
+          </button>
+        </div>
+
+        <button id="btn-open-this" class="btn btn-primary" type="button" aria-label="Open this digital letter">
+          OPEN THIS 💙
+        </button>
+        <p class="body-quiet">Only if you're comfortable.</p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         LEVEL 2 — INTENTION (02 / 06)
+         ==================================================================== -->
+    <section id="level-02" class="scene" aria-label="Level 2: Intention">
+      <div class="scene-content">
+        <h2 class="title-serif title-hero">Don't worry.</h2>
+        
+        <p class="body-lead">I'm not here to fight with you.</p>
+        <p class="body-lead">I'm not here to force you to change your decision.</p>
+        <p class="body-lead" style="margin-bottom: 32px;">I just wanted to say this properly.</p>
+
+        <button id="btn-to-03" class="btn btn-primary" type="button">
+          I UNDERSTAND →
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         LEVEL 3 — SOMETHING CHANGED (03 / 06)
+         ==================================================================== -->
+    <section id="level-03" class="scene" aria-label="Level 3: Something Changed">
+      <div class="scene-content">
+        <!-- 3D Glowing Timeline -->
+        <div class="timeline-3d-track" aria-hidden="true">
+          <span>THEN</span>
+          <div class="timeline-3d-line"></div>
+          <span>NOW</span>
+        </div>
+
+        <!-- Floating Context Tags -->
+        <div class="floating-words-cloud" aria-hidden="true">
+          <span class="word-tag">calls</span>
+          <span class="word-tag">messages</span>
+          <span class="word-tag">conversations</span>
+          <span class="word-tag">plans</span>
+        </div>
+
+        <p class="body-lead">Kuch din pehle tak sab theek tha…</p>
+        <p class="text-emotional">And suddenly, something changed.</p>
+        <p class="body-lead" style="margin-bottom: 32px;">Maybe there are things I couldn't understand.</p>
+
+        <button id="btn-to-04" class="btn btn-primary" type="button">
+          CONTINUE ↓
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         LEVEL 4 — MY PART (04 / 06)
+         ==================================================================== -->
+    <section id="level-04" class="scene" aria-label="Level 4: My Part">
+      <div class="scene-content">
+        <!-- Soft Focused Flower -->
+        <svg class="flower-focused-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="32" cy="32" r="15" fill="#2D6BFF" fill-opacity="0.3"/>
+          <path d="M32 8C22 22 18 28 32 44C46 28 42 22 32 8Z" fill="#69A6FF" fill-opacity="0.6"/>
+          <path d="M8 32C22 22 28 18 44 32C28 46 22 42 8 32Z" fill="#69A6FF" fill-opacity="0.4"/>
+        </svg>
+
+        <p class="body-lead">Maybe I made mistakes too.</p>
+        <h2 class="apology-hero-text">I'm sorry.</h2>
+        <p class="body-lead" style="margin-bottom: 16px;">Agar meri kisi baat ne tumhe hurt kiya, I genuinely mean that.</p>
+        <p class="body-lead" style="color: var(--text-white); margin-bottom: 32px;">I don't want assumptions to be the last thing between us.</p>
+
+        <button id="btn-to-05" class="btn btn-primary" type="button">
+          GO ON →
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         LEVEL 5 — ONE REQUEST PREP (05 / 06)
+         ==================================================================== -->
+    <section id="level-05" class="scene" aria-label="Level 5: Clarity Prep">
+      <div class="scene-content">
+        <p class="body-quiet" style="margin-bottom: 8px;">Tap each statement:</p>
+        
+        <div class="statement-cards-deck">
+          <div class="statement-glass-card" tabindex="0" role="button" aria-label="No arguments">
+            <span>No arguments.</span>
+          </div>
+          <div class="statement-glass-card is-hidden-card" tabindex="0" role="button" aria-label="No blame">
+            <span>No blame.</span>
+          </div>
+          <div class="statement-glass-card is-hidden-card" tabindex="0" role="button" aria-label="No pressure">
+            <span>No pressure.</span>
+          </div>
+          <div class="statement-glass-card is-hidden-card" tabindex="0" role="button" aria-label="No expectations">
+            <span>No expectations.</span>
+          </div>
+        </div>
+
+        <div id="level5-climax-box" class="level5-climax-box is-hidden-card">
+          <h2 class="statement-primary">Bas ek honest conversation.</h2>
+        </div>
+
+        <button id="btn-to-06" class="btn btn-primary is-hidden-card" type="button">
+          TELL ME →
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         LEVEL 6 — MAIN REQUEST & DECISION (06 / 06)
+         ==================================================================== -->
+    <section id="level-06" class="scene" aria-label="Level 6: Main Request">
+      <div class="scene-content">
+        <div class="climax-glowing-dot" aria-hidden="true"></div>
+        
+        <h2 class="title-serif title-hero">Can we meet once?</h2>
+        <p class="text-emotional" style="margin-bottom: 6px;">Bas ek baar.</p>
+        <p class="body-lead" style="margin-bottom: 20px;">Face to face.</p>
+
+        <div style="max-width: 380px; margin-bottom: 20px;">
+          <p class="body-lead">If there is a misunderstanding, we can clear it.</p>
+          <p class="body-lead">If your decision is still the same, I'll respect it.</p>
+        </div>
+
+        <h3 class="statement-primary" style="font-size: var(--text-xl); margin: 18px 0 12px;">Meeting doesn't mean starting again.</h3>
+        <p class="body-lead" style="font-size: var(--text-sm); margin-bottom: 4px;">You don't have to change your decision.</p>
+        <p class="body-lead" style="font-size: var(--text-sm); margin-bottom: 4px;">You don't have to promise me anything.</p>
+        <p class="body-lead" style="font-size: var(--text-sm); margin-bottom: 24px;">It's just one conversation.</p>
+
+        <!-- Final Prompt -->
+        <h2 class="title-serif title-hero" style="font-size: var(--text-2xl); margin-bottom: 4px;">So… can we talk once?</h2>
+        <p class="body-quiet" style="margin-top: 0; margin-bottom: 20px;">No pressure. Just one honest conversation.</p>
+
+        <!-- TWO Options Only -->
+        <div class="decision-actions-stack">
+          <button id="btn-choice-yes" class="btn btn-primary" type="button" aria-label="Yes, we can meet once">
+            💙 YES, WE CAN MEET ONCE
+          </button>
+          
+          <button id="btn-choice-time" class="btn btn-secondary" type="button" aria-label="I need some time">
+            I NEED SOME TIME
+          </button>
+        </div>
+
+        <!-- Respectful Freedom Statement -->
+        <p class="body-quiet" style="margin-top: 22px; max-width: 320px;">
+          If you don't want this conversation, I'll respect that too.
+        </p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         OUTCOME VIEW: YES CONFIRMATION
+         ==================================================================== -->
+    <section id="outcome-yes" class="scene" aria-label="Yes Confirmation">
+      <div class="scene-content">
+        <h2 class="outcome-hero-title">Thank you. 💙</h2>
+
+        <p class="body-lead">You choose the place.</p>
+        <p class="body-lead">You choose the time.</p>
+        <p class="body-lead">I'll be there.</p>
+        <p class="body-lead" style="margin-top: 18px; margin-bottom: 32px;">And I won't take this as a promise of anything beyond one conversation.</p>
+
+        <a id="link-wa-yes" class="btn btn-whatsapp" href="https://wa.me/919202797157?text=Okay%2C%20we%20can%20meet%20once." target="_blank" rel="noopener noreferrer">
+          MESSAGE ME ON WHATSAPP →
+        </a>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         OUTCOME VIEW: NEED TIME CONFIRMATION
+         ==================================================================== -->
+    <section id="outcome-time" class="scene" aria-label="Need Time Confirmation">
+      <div class="scene-content">
+        <h2 class="outcome-hero-title">That's okay.</h2>
+
+        <p class="body-lead">Take your time.</p>
+        <p class="body-lead" style="margin-bottom: 32px;">No pressure from my side.</p>
+
+        <a id="link-wa-time" class="btn btn-whatsapp" href="https://wa.me/919202797157?text=I%20read%20everything.%20I%20just%20need%20some%20time." target="_blank" rel="noopener noreferrer">
+          TELL ME ON WHATSAPP
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bulletproof Application Bundle (Works seamlessly on file:// and http://) -->
+  <script src="js/bundle.js"></script>
+</body>
+</html>

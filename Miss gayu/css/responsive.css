@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Responsive & Accessibility Styles
+   ========================================================================== */
+
+/* Mobile Safe Areas and Small Viewports (320px - 380px) */
+@media (max-width: 380px) {
+  :root {
+    --text-hero: 2.2rem;
+    --text-2xl: 1.6rem;
+  }
+
+  .scene {
+    padding: max(60px, env(safe-area-inset-top)) 16px max(30px, env(safe-area-inset-bottom));
+  }
+
+  .btn {
+    min-height: 50px;
+    padding: 12px 18px;
+    font-size: 0.82rem;
+  }
+
+  .audio-mode-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .envelope-3d-wrapper {
+    width: 64px;
+    height: 46px;
+  }
+}
+
+/* Tablet & Desktop */
+@media (min-width: 600px) {
+  .scene {
+    max-width: 580px;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Accessibility: Reduced Motion (@media prefers-reduced-motion) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .scene-enter-3d, .scene-exit-3d {
+    animation: none !important;
+  }
+
+  #petals-canvas {
+    display: none !important;
+  }
+
+  .guide-orb, .envelope-3d, .envelope-heart-seal, .opening-blue-glow-ring, .flower-focused-icon {
+    animation: none !important;
+  }
+}
