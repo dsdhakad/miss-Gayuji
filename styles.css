@@ -1,0 +1,510 @@
+/* ==========================================================================
+   CINEMATIC 3D STORY — ULTRA-CLEAN MOVIE SUBTITLE REDESIGN
+   Characters occupy 80%+ of the viewport. Subtitles are slim at the bottom.
+   ========================================================================== */
+
+:root {
+  --bg-deep: #02040a;
+  --accent-moon: #93c5fd;
+  --accent-royal: #2563eb;
+  --accent-cyan: #38bdf8;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --glass-bg: rgba(6, 12, 32, 0.92);
+  --glass-border: rgba(147, 197, 253, 0.35);
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 100svh;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* ==========================================================================
+   FULLSCREEN 3D WEBGL STAGE (Occupies 100% of the screen)
+   ========================================================================== */
+#canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.stage-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 30%, transparent 40%, rgba(2, 4, 10, 0.5) 80%, rgba(2, 4, 10, 0.92) 100%);
+  z-index: 2;
+}
+
+/* ==========================================================================
+   TOP BAR: Scene Counter & YouTube Music Player Controller
+   ========================================================================== */
+.top-nav {
+  position: absolute;
+  top: calc(10px + var(--safe-top));
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.scene-counter-badge {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(6, 12, 32, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+}
+
+.scene-count-text {
+  font-family: var(--font-serif);
+  font-size: 0.76rem;
+  letter-spacing: 2px;
+  color: var(--accent-moon);
+  font-weight: 700;
+}
+
+.scene-dots-bar {
+  display: flex;
+  gap: 4px;
+}
+
+.dot-item {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.dot-item.active {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-royal);
+  transform: scale(1.3);
+}
+
+/* PROPER COMPLETE MUSIC CONTROLLER */
+.music-player-bar {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(6, 12, 34, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(147, 197, 253, 0.45);
+  padding: 4px 10px 4px 8px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(59, 130, 246, 0.3);
+}
+
+.vinyl-disc {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2563eb, #080f24 75%);
+  border: 1px solid rgba(147, 197, 253, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: discSpin 6s linear infinite;
+}
+
+.vinyl-disc::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #93c5fd;
+}
+
+.music-player-bar.paused .vinyl-disc {
+  animation-play-state: paused;
+}
+
+@keyframes discSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.music-details {
+  display: flex;
+  flex-direction: column;
+  max-width: 80px;
+}
+
+@media (min-width: 480px) {
+  .music-details {
+    max-width: 140px;
+  }
+}
+
+.music-title-text {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-sub-btn {
+  font-size: 0.56rem;
+  color: var(--accent-cyan);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.music-sub-btn:hover {
+  text-decoration: underline;
+}
+
+.ctrl-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.m-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.m-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.m-btn.play-btn {
+  background: linear-gradient(135deg, var(--accent-royal), var(--accent-cyan));
+  color: #ffffff;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+}
+
+.m-btn.muted {
+  color: #ef4444;
+}
+
+.eq-wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 12px;
+}
+
+.eq-bar {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to top, var(--accent-royal), var(--accent-cyan));
+  border-radius: 2px;
+  transform-origin: bottom;
+  animation: eqJump 1s ease-in-out infinite alternate;
+}
+
+.eq-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.eq-bar:nth-child(2) { height: 95%; animation-delay: 0.3s; }
+.eq-bar:nth-child(3) { height: 60%; animation-delay: 0.15s; }
+.eq-bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+
+.music-player-bar.paused .eq-bar {
+  animation: none;
+  height: 3px;
+  background: var(--text-muted);
+}
+
+@keyframes eqJump {
+  0% { transform: scaleY(0.2); }
+  100% { transform: scaleY(1); }
+}
+
+/* ==========================================================================
+   VISIBLE YOUTUBE PLAYLIST MODAL
+   ========================================================================== */
+.playlist-modal {
+  position: absolute;
+  top: calc(48px + var(--safe-top));
+  right: 12px;
+  width: 290px;
+  background: rgba(6, 12, 34, 0.96);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+  z-index: 40;
+  display: none;
+  pointer-events: auto;
+}
+
+.playlist-modal.open {
+  display: block;
+}
+
+.yt-embed-box {
+  width: 100%;
+  height: 140px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 1px solid rgba(147, 197, 253, 0.3);
+  background: #000;
+}
+
+.yt-embed-box iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   SLIM FLOATING SUBTITLE DOCK (Bottom 20% max)
+   Allows 3D characters in upper 80% to be completely visible and prominent!
+   ========================================================================== */
+.floating-story-dock {
+  position: absolute;
+  bottom: calc(10px + var(--safe-bottom));
+  left: 12px;
+  right: 12px;
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.85);
+  z-index: 20;
+}
+
+.story-pane {
+  display: none;
+  animation: fadeIn 0.35s ease;
+}
+
+.story-pane.active {
+  display: block;
+}
+
+.pane-headline {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+@media (min-width: 480px) {
+  .pane-headline {
+    font-size: 1.45rem;
+  }
+}
+
+.pane-body {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.pane-body p {
+  margin-bottom: 2px;
+}
+
+.pane-body .highlight {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.pane-body .soft-blue {
+  color: var(--accent-moon);
+}
+
+/* Action Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(14, 165, 233, 0.9));
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45);
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(12, 22, 54, 0.8);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #0d7568, #22c55e);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 18px rgba(34, 197, 94, 0.4);
+}
+
+/* Scene 05: Memory Chips */
+.memory-chip-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.mem-chip {
+  flex: 1;
+  padding: 5px 6px;
+  border-radius: 6px;
+  background: rgba(12, 22, 54, 0.65);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+}
+
+.mem-chip.active {
+  background: rgba(37, 99, 235, 0.35);
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+}
+
+/* Scene 06: Intentions List */
+.intentions-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.int-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: rgba(8, 16, 42, 0.7);
+  border-left: 3px solid var(--accent-cyan);
+  font-size: 0.76rem;
+  color: var(--text-primary);
+}
+
+/* Scene 08 Decision */
+.decision-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.decision-note {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

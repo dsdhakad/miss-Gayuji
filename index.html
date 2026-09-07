@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>A Calm Conversation — Interactive 3D Story</title>
+  <meta name="description" content="A cinematic, modern, interactive 3D story asking for one calm face-to-face conversation.">
+  <meta name="theme-color" content="#02040a">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Fullscreen 3D WebGL Canvas Layer -->
+  <div id="canvas-container"></div>
+  <div class="stage-vignette"></div>
+
+  <!-- TOP BAR: Scene Counter & Complete Music Controller -->
+  <header class="top-nav">
+    <div class="scene-counter-badge">
+      <span class="scene-count-text" id="sceneCounterText">01 / 08</span>
+      <div class="scene-dots-bar" id="sceneDots"></div>
+    </div>
+
+    <!-- PROPER COMPLETE MUSIC CONTROLLER BAR -->
+    <div class="music-player-bar" id="musicPlayerBar" aria-label="Music Player Controls">
+      <div class="vinyl-disc"></div>
+      
+      <div class="music-details">
+        <span class="music-title-text" id="audioTrackTitle">Hamari Adhuri Kahani</span>
+        <button class="music-sub-btn" id="playlistToggleBtn" title="View Playlist">
+          <span>Playlist ▾</span>
+        </button>
+      </div>
+
+      <!-- Controls: Prev, Play/Pause, Next, Mute -->
+      <div class="ctrl-btn-group">
+        <button class="m-btn" id="audioPrevBtn" aria-label="Previous Track" title="Previous Track">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+
+        <button class="m-btn play-btn" id="audioPlayPauseBtn" aria-label="Play/Pause" title="Play / Pause Soundtrack">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+        </button>
+
+        <button class="m-btn" id="audioNextBtn" aria-label="Next Track" title="Next Track">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+
+        <button class="m-btn" id="audioMuteBtn" aria-label="Mute/Unmute" title="Mute / Unmute">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </button>
+      </div>
+
+      <!-- Live Equalizer Waveform -->
+      <div class="eq-wave">
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+      </div>
+    </div>
+
+    <!-- Interactive Playlist Drawer Modal with Real YouTube Frame -->
+    <div class="playlist-modal" id="playlistDrawer">
+      <div class="playlist-modal-header">
+        <span>YOUTUBE PLAYLIST</span>
+        <span style="font-size: 0.62rem; color: var(--accent-cyan);">PLI6sJkfOzW9Q</span>
+      </div>
+
+      <!-- Real Visible YouTube Embed for zero policy blockage -->
+      <div class="yt-embed-box">
+        <iframe id="yt-player-frame" 
+          src="https://www.youtube.com/embed/fOz2MdE8Avw?list=PLI6sJkfOzW9Q&enablejsapi=1&autoplay=1&playsinline=1&loop=1" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="playlist-rows" id="playlistItemsList">
+        <!-- Dynamically rendered playlist items -->
+      </div>
+    </div>
+  </header>
+
+  <!-- BOTTOM FLOATING NARRATIVE DOCK (Takes <20% of bottom, 3D characters fully visible above!) -->
+  <main class="floating-story-dock" aria-label="Story Narrative">
+
+    <!-- SCENE 01: THE BEGINNING -->
+    <div class="story-pane active" id="scene-pane-1">
+      <h1 class="pane-headline">Hey…</h1>
+      <div class="pane-body">
+        <p>I could have sent another message.</p>
+        <p class="highlight">But some things deserved more than a message.</p>
+      </div>
+      <button class="btn-primary" data-action="next-scene">
+        <span>OPEN STORY & PLAY MUSIC ♫</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- SCENE 02: WHEN EVERYTHING FELT NORMAL -->
+    <div class="story-pane" id="scene-pane-2">
+      <h2 class="pane-headline">Kuch din pehle tak sab normal tha.</h2>
+      <div class="pane-body">
+        <p class="soft-blue">Calls. Messages. Conversations. Plans.</p>
+        <p>And then something changed.</p>
+      </div>
+      <button class="btn-primary" data-action="next-scene">
+        <span>CONTINUE</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- SCENE 03: THE DISTANCE -->
+    <div class="story-pane" id="scene-pane-3">
+      <h2 class="pane-headline">I don't want assumptions to decide everything.</h2>
+      <div class="pane-body">
+        <p>I could feel the distance.</p>
+        <p>Maybe something happened that I didn't understand.</p>
+        <p class="soft-blue">Maybe you misunderstood me, or I misunderstood you.</p>
+      </div>
+      <button class="btn-primary" data-action="next-scene">
+        <span>NEXT</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- SCENE 04: MY PART -->
+    <div class="story-pane" id="scene-pane-4">
+      <h2 class="pane-headline">I'm sorry.</h2>
+      <div class="pane-body">
+        <p>Maybe I made mistakes too.</p>
+        <p class="highlight">Agar meri kisi baat, reaction ya behaviour ne aapko hurt kiya… I genuinely mean that.</p>
+      </div>
+      <button class="btn-primary" data-action="next-scene">
+        <span>GO ON</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- SCENE 05: THINGS I REMEMBER -->
+    <div class="story-pane" id="scene-pane-5">
+      <h2 class="pane-headline">Kuch sapne yaad reh jaate hain.</h2>
+
+      <div class="memory-chip-row">
+        <div class="mem-chip active" data-target="ghagra">80-Kali Ghagra Dream</div>
+        <div class="mem-chip" data-target="pixel">Google Pixel 9a Wishlist</div>
+      </div>
+
+      <div class="pane-body" id="paneGhagra">
+        <p class="soft-blue">80-kali wala bhi. 🙂</p>
+        <p>A graceful flowing royal blue dream under moonlight.</p>
+      </div>
+
+      <div class="pane-body" id="panePixel" style="display: none;">
+        <p class="soft-blue">Aur kuch wishlist wali cheezein bhi.</p>
+        <p class="highlight">“Aur haan… kuch wishlist wali cheezein bhi yaad hain. 🙂”</p>
+        <p style="font-size: 0.74rem; color: var(--text-muted);">Little things stay with you.</p>
+      </div>
+
+      <button class="btn-primary" data-action="next-scene">
+        <span>ONE MORE THING</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- SCENE 06: BAS ITNI SI BAAT HAI... -->
+    <div class="story-pane" id="scene-pane-6">
+      <h2 class="pane-headline">Bas itni si baat hai…</h2>
+      <div class="pane-body">
+        <p class="soft-blue">What this is, and what this is not.</p>
+      </div>
+
+      <div class="intentions-box">
+        <div class="int-row">
+          <span>🕊️</span>
+          <span><b>No argument</b> & No defensiveness</span>
+        </div>
+        <div class="int-row">
+          <span>💬</span>
+          <span><b>No blame</b> & Full sincerity</span>
+        </div>
+        <div class="int-row">
+          <span>🌌</span>
+          <span><b>No pressure</b> — Whatever you decide, I respect it</span>
+        </div>
+        <div class="int-row">
+          <span>💙</span>
+          <span><b>Only one calm, honest conversation</b></span>
+        </div>
+      </div>
+
+      <button class="btn-primary" data-action="next-scene">
+        <span>EK AAKHRI BAAT</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- SCENE 07: THE BRIDGE -->
+    <div class="story-pane" id="scene-pane-7">
+      <h2 class="pane-headline">Just one thing.</h2>
+      <div class="pane-body">
+        <p>There's only one thing I want to ask.</p>
+        <p class="soft-blue">Respecting your space, without demanding anything.</p>
+      </div>
+      <button class="btn-primary" data-action="next-scene">
+        <span>ASK ME</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- SCENE 08: MAIN REQUEST & DECISION -->
+    <div class="story-pane" id="scene-pane-8">
+      <h2 class="pane-headline">Can we meet once?</h2>
+      <div class="pane-body">
+        <p class="soft-blue">Bas ek baar. Face to face. Calmly.</p>
+        <p>If there is a misunderstanding, we can clear it. If I did something wrong, I want to listen.</p>
+        <p class="highlight">Meeting doesn't mean starting again. Just one conversation.</p>
+      </div>
+
+      <div class="decision-btn-group">
+        <button class="btn-primary" id="decisionYesBtn">
+          <span>💙 YES, WE CAN MEET ONCE</span>
+        </button>
+        <button class="btn-secondary" id="decisionNeedTimeBtn">
+          <span>I NEED SOME TIME</span>
+        </button>
+      </div>
+
+      <p class="decision-note">If you don't want this conversation, I'll respect that too.</p>
+    </div>
+
+    <!-- OUTCOME: YES FLOW -->
+    <div class="story-pane" id="outcome-pane-yes">
+      <h2 class="pane-headline" style="color: var(--accent-cyan);">Thank you. 💙</h2>
+      <div class="pane-body">
+        <p class="highlight">You choose the place. You choose the time. I'll be there.</p>
+        <p class="soft-blue">And I won't treat this as a promise of anything beyond one conversation.</p>
+      </div>
+      <a class="btn-primary btn-whatsapp" href="https://wa.me/919202797157?text=Okay%2C%20we%20can%20meet%20once." target="_blank" rel="noopener noreferrer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.075-2.222-.556-1.954-.809-3.21-2.794-3.307-2.924-.097-.13-1.045-1.39-1.045-2.651 0-1.261.66-1.882.894-2.141.234-.259.51-.324.68-.324.17 0 .34.002.489.01.157.008.368-.06.575.437.214.514.73 1.782.793 1.911.064.13.106.282.021.452-.085.17-.128.276-.255.424-.127.148-.268.33-.383.443-.127.127-.26.265-.112.519.148.254.658 1.085 1.411 1.756.968.864 1.784 1.131 2.038 1.258.254.127.403.106.552-.064.149-.17.637-.741.807-.996.17-.255.339-.212.573-.127.234.085 1.487.7 1.742.827.255.127.424.191.488.297.064.106.064.615-.08 1.02z"/></svg>
+        <span>MESSAGE ME ON WHATSAPP</span>
+      </a>
+    </div>
+
+    <!-- OUTCOME: NEED TIME FLOW -->
+    <div class="story-pane" id="outcome-pane-time">
+      <h2 class="pane-headline" style="color: var(--accent-moon);">That's okay. 🕊️</h2>
+      <div class="pane-body">
+        <p class="highlight">Take your time. No pressure from my side.</p>
+        <p class="soft-blue">Whatever you truly decide, I'll respect it.</p>
+      </div>
+      <a class="btn-secondary btn-whatsapp" href="https://wa.me/919202797157?text=I%20read%20everything.%20I%20just%20need%20some%20time." target="_blank" rel="noopener noreferrer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.075-2.222-.556-1.954-.809-3.21-2.794-3.307-2.924-.097-.13-1.045-1.39-1.045-2.651 0-1.261.66-1.882.894-2.141.234-.259.51-.324.68-.324.17 0 .34.002.489.01.157.008.368-.06.575.437.214.514.73 1.782.793 1.911.064.13.106.282.021.452-.085.17-.128.276-.255.424-.127.148-.268.33-.383.443-.127.127-.26.265-.112.519.148.254.658 1.085 1.411 1.756.968.864 1.784 1.131 2.038 1.258.254.127.403.106.552-.064.149-.17.637-.741.807-.996.17-.255.339-.212.573-.127.234.085 1.487.7 1.742.827.255.127.424.191.488.297.064.106.064.615-.08 1.02z"/></svg>
+        <span>TELL ME ON WHATSAPP</span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/scene3d.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
